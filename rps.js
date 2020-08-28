@@ -2,6 +2,10 @@ let bodyContainer = document.querySelector("#body-container");
 let buttons = bodyContainer.querySelectorAll("button");
 let resultsDiv = bodyContainer.querySelector("#results-div");
 let resultsDivChildren = resultsDiv.getElementsByClassName("results-children");
+let playerScore = 0;
+let computerScore = 0;
+let round = 0;
+let gamesFinished = false;
 
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -9,7 +13,61 @@ buttons.forEach((button) => {
         let computerChoice = computerPlay();
         let results = playRound(playerChoice, computerChoice);
 
-        resultsDivChildren[1].innerHTML = results;
+        if (gamesFinished) {
+            gamesFinished = false;
+            round = 0;
+            playerScore = 0;
+            computerScore = 0;
+
+            resultsDivChildren[2].querySelector("#scorecard-end-result").style.visibility = "hidden";
+            resultsDivChildren[2].querySelector("#scorecard-you").innerHTML = "You: " + playerScore;
+            resultsDivChildren[2].querySelector("#scorecard-computer").innerHTML = "Computer: " + computerScore;
+        }
+
+        if (round < 5) {
+            round++;
+            resultsDivChildren[0].innerHTML = "Round " + round;
+        }
+
+        if (round <= 5)
+        {
+            resultsDivChildren[1].innerHTML = results;
+
+            let resultSubstring = results.substring(0, results.indexOf("!"));
+
+            if (resultSubstring === "You win") {
+                playerScore++;
+                resultsDivChildren[2].querySelector("#scorecard-you").innerHTML = "You: " + playerScore;
+            }
+
+            else if (resultSubstring === "You lose") {
+                computerScore++;
+                resultsDivChildren[2].querySelector("#scorecard-computer").innerHTML = "Computer: " + computerScore;
+            }
+        }
+
+        if (round === 5) {
+            if (playerScore > computerScore) {
+                resultsDivChildren[2].querySelector("#scorecard-end-result").innerHTML = "You've won more games!";
+                resultsDivChildren[2].querySelector("#scorecard-end-result").style.visibility = "visible";
+
+                gamesFinished = true;
+            }
+
+            else if (playerScore < computerScore) {
+                resultsDivChildren[2].querySelector("#scorecard-end-result").innerHTML = "You've lost more games!";
+                resultsDivChildren[2].querySelector("#scorecard-end-result").style.visibility = "visible";
+
+                gamesFinished = true;
+            }
+
+            else {
+                resultsDivChildren[2].querySelector("#scorecard-end-result").innerHTML = "End result: Tie!";
+                resultsDivChildren[2].querySelector("#scorecard-end-result").style.visibility = "visible";
+
+                gamesFinished = true;
+            }
+        }
     });
 });
 
@@ -68,69 +126,3 @@ function playRound(playerSelection, computerSelection) {
         }
     }
 }
-/*
-    function game() {
-        let roundsWon = 0;
-        let roundsLost = 0;
-        let round = 1;
-        let lastRound = round;
-        let computerChoice;
-        let winOrLose;
-        let playerChoice;
-
-        do {
-            console.log("Round " + round);
-            playerChoice = prompt("Rock, Paper, Scissors?");
-            let pcLower = playerChoice.toLowerCase();
-
-            while (pcLower != "rock" && pcLower != "paper" && pcLower != "scissors") {
-                playerChoice = prompt("Invalid answer/nRock, Paper, Scissors?");
-                pcLower = playerChoice.toLowerCase();
-            }
-
-            computerChoice = computerPlay();
-            winOrLose = playRound(playerChoice, computerChoice);
-
-            let winOrLoseSub = winOrLose.substring(0, winOrLose.indexOf("!"));
-
-            if (winOrLoseSub === "You win") {
-                roundsWon++;
-                lastRound = round;
-                round++;
-
-                console.log(winOrLoseSub + "!");
-                console.log("You chose: " + pcLower + " and the computer chose: " + computerChoice);
-                console.log("You: " + roundsWon.toString() + " Computer: " + roundsLost.toString());
-            }
-
-            else if (winOrLoseSub === "You lose") {
-                roundsLost++;
-                lastRound = round;
-                round++;
-
-                console.log(winOrLoseSub + "!");
-                console.log("You chose: " + pcLower + " and the computer chose: " + computerChoice);
-                console.log("You: " + roundsWon.toString() + " Computer: " + roundsLost.toString());
-            }
-
-            else {
-                console.log("A tie!");
-                console.log("You chose: " + pcLower + " and the computer chose: " + computerChoice);
-                round++;
-            }
-        } while (round <= 5);
-
-        if (roundsWon > roundsLost) {
-            console.log("You won more games!");
-        }
-
-        
-
-        else if (roundsLost > roundsWon) {
-            console.log("You lost more games!");
-        }
-
-        else {
-            console.log("You tied games won and games lost!");
-        }
-    }*/
