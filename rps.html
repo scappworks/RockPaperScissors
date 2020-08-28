@@ -7,12 +7,19 @@
 
     <body>
         <div id="body-container">
-            <div id="rock-div"><h2>Rock</h2></div>
-            <div id="paper-div"><h2>Paper</h2></div>
-            <div id="scissors-div"><h2>Scissors</h2></div>
-            <div id="results-div"><h2>Results will go here!</h2></div>
+            <button id="rock-button"><h2>Rock</h2></button>
+            <button id="paper-button"><h2>Paper</h2></button>
+            <button id="scissors-button"><h2>Scissors</h2></button>
+            <div id="results-div">
+                <h3 class="results-children">Round 1</h3>
+                <h3 class="results-children">Rock, Paper, Scissors</h3>
+                <div class="results-children" id="scorecard">
+                    <h3 class="scorecard-children" id="scorecard-you">You: 0</h3>
+                    <h3 class="scorecard-children" id="scorecard-computer">Computer: 0</h3>
+                </div>
+            </div>
         </div>
-
+<!--
         <script>
             game();
 
@@ -138,5 +145,8 @@
                 }
             }
         </script>
+    -->
+
+    <script src="rps.js"></script>
     </body>
 </html>
